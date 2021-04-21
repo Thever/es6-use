@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class的继承</title>
+</head>
+<body>
+    <script>
+    //  class 可以通过extends继承，比ES5修改原型链继承方法方便多了
+    //  继承的子类需要再super方法后，才能调用this
+    // class Point{
+    //     constructor(x=0,y=0){
+    //         this.x = x
+    //         this.y = y
+    //     }
+    // }
+    // class ColorPoint extends Point{
+    //     constructor(x,y,color){
+    //         // this.color = color // ReferenceError
+    //         super(x,y)  // 继承x,y的指向
+    //         this.color = color
+    //     }
+    //     showInfo(){
+    //         console.log('this.x', this.x)
+    //         console.log('this.y', this.y)
+    //         console.log('this.color', this.color)
+    //     }
+    // }
+    // let p = new ColorPoint(1,2,'red')
+    // p.showInfo()
+
+    //  Object.getPrototypeOf方法可以用来从子类上获取父类,可以判断类是否继承了其他类
+    // console.log(`Object.getPrototypeOf(ColorPoint) === Point`, Object.getPrototypeOf(ColorPoint) === Point)
+
+    //  1.super只能用在子类的构函数中，代表继承父类属性方法
+    //  2.super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类原型对象。
+    // class A{
+    //     p(){
+    //         return 2
+    //     }
+    // }
+    // class B extends A {
+    //     constructor(){
+    //         //  继承A的构造器
+    //         super()
+    //         //  指代父类
+    //         console.log(super.p())
+    //     }
+    // }
+    // let b = new B()
+
+    //  ES6 规定，在子类普通方法中通过super调用父类的方法时，方法内部的this指向当前的子类实例。
+    // class A{
+    //     constructor(){
+    //         this.x = 1
+    //     }
+    //     print(){
+    //         console.log(this.x)
+    //     }
+    // }
+    // class B extends A{
+    //     constructor(){
+    //         super()
+    //         this.x = 2
+    //     }
+    //     m(){
+    //         // super调用父类方法，this指向子类
+    //         super.print()
+    //     }
+    // }
+    // let b = new B()
+    // b.m()
+
+    // super读取时为父类原型链上的值，调用和赋值时指向子类this
+    // class A{
+    //     constructor(){
+    //         this.x = 1
+    //     }
+    // }
+
+    // class B extends A{
+    //     constructor(){
+    //         super()
+    //         this.x = 2
+    //         super.x = 3
+    //         console.log(super.x) // 相当于打印a.prototype.x,undefined
+    //         console.log(this.x) // 3
+    //     }
+    // }
+    // let b = new B()
+
+    //  super作为对象，用在静态方法之中，这时super将指向父类，而不是父类的原型对象。
+    //  static方法给类调用使用，无static方法给类实例化使用
+    // class Parent {
+    //     static myMethod(msg) {
+    //         console.log('static', msg);
+    //     }
+
+    //     myMethod(msg) {
+    //         console.log('instance', msg);
+    //     }
+    // }
+
+    // class Child extends Parent {
+    //     static myMethod(msg) {
+    //         //  继承static myMethod方法
+    //         super.myMethod(msg);
+    //     }
+
+    //     myMethod(msg) {
+    //         //  继承myMethod方法
+    //         super.myMethod(msg);
+    //     }
+    // }
+
+    // Child.myMethod(1); // static 1，因为是类调用，没有实例化，调用static myMethod方法
+
+    // var child = new Child();
+    // child.myMethod(2); // instance 2 因为是实例化调用
+
+    // mixin模式
+    const a = {
+        //  js对象中键名默认视为string
+        a:'a'
+    }
+    const b = {
+        //  你也可以这么写
+        'b':'b'
+    }
+    const c = {...a,...b}   //  其实也是解构赋值,{a: "a", b: "b"}
+    console.log(c)
+    </script>
+</body>
+</html>

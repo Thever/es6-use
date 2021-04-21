@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类声明</title>
+</head>
+<body>
+    <script>
+        // //手机
+        // function Phone(brand, price){
+        //     this.brand = brand;
+        //     this.price = price;
+        // }
+
+        // //添加方法
+        // Phone.prototype.call = function(){
+        //     console.log("我可以打电话!!");
+        // }
+
+        // //实例化对象
+        // let Huawei = new Phone('华为', 5999);
+        // Huawei.call();
+        // console.log(Huawei);
+
+        // //class
+        // class Shouji{
+        //     //构造方法 名字不能修改
+        //     constructor(brand, price){
+        //         this.brand = brand;
+        //         this.price = price;
+        //     }
+
+        //     //方法必须使用该语法, 不能使用 ES5 的对象完整形式
+        //     call(){
+        //         console.log("我可以打电话!!");
+        //     }
+        // }
+
+        // let onePlus = new Shouji("1+", 1999);
+
+        // console.log(onePlus);
+
+
+        //  ES5中有构造函数用来实现代码复用
+        //  构造函数一般是大写的
+        // function Show(x,y){
+        //     this.x = x;
+        //     this.y = y
+        // }
+        // //  原型链写入方法
+        // Show.prototype.toString = function(){
+        //     return '(' + this.x + ', ' + this.y + ')';
+        // }
+        // 实例化调用
+        // var p = new Show(1,2)
+        // console.log(p.toString())
+
+        //  使用Class语法糖来改写,命名也是需要大写
+        class Show{
+            constructor(x,y){
+                this.x = x
+                this.y = y
+            }
+            //   这里定义方法相当于在原型链上赋予属性
+            toString(){
+                return '(' + this.x + ', ' + this.y + ')';
+            }
+        }
+        // //  class也通过实例化调用
+        // let p = new Show(1,2)
+        // console.log(p.toString())
+
+        //  prototype对象的constructor()属性，直接指向“类”的本身，这与 ES5 的行为是一致的。
+        //  Show.prototype.constructor === Show // true
+
+        //  与 ES5 一样，类的所有实例共享一个原型对象
+        // let p1 = new Show(1,1)
+        // let p2 = new Show(2,2)
+        // console.log(p1.__proto__ === p2.__proto__)  // true
+
+        // //  可以在实例化上给原型添加属性方法，影响类，从而影响到所有实例
+        // p1.__proto__.printName = function () { console.log('Oops') };
+        // p1.printName() // "Oops"
+        // p2.printName() // "Oops"
+        // var p3 = new Show(4,2);
+        // p3.printName() // "Oops"
+
+        //  class中也有get 和 set方法
+        // class MyClass {
+        //     constructor(val=1) {
+        //         this.val = val
+        //     }
+        //     //  监听返回val
+        //     get prop() {
+        //         return this.val;
+        //     }
+        //     //  监听修改val
+        //     set prop(val) {
+        //         this.val = val
+        //         console.log('修改了this.val');
+        //     }
+        // }
+        // //  初始化
+        // let inst = new MyClass();
+        // //  读取值
+        // console.log(inst.prop)
+        // //  修改后再读取值
+        // inst.prop=66
+        // console.log(inst.prop)
+
+        //  同object一样，类的属性名也可以用表达式
+        // let showJojo = 'jojo'
+        // class Square {
+        //     constructor(name='jojo'){
+        //         this.name = name
+        //     }
+        //     //  属性别名定义方法
+        //     [showJojo](){
+        //         console.log('this.name',this.name)
+        //     }
+        // }
+        // let showjojo = new Square()
+        // //  属性别名调用
+        // showjojo[showJojo]()
+        // console.log(showjojo)
+
+        //  Class表达式立即执行，先实例化后补充定义,这样可以避免原型链被污染
+        // let person = new class {
+        //     constructor(name='默认名'){
+        //         this.name = name
+        //     }
+        //     showName(){
+        //         console.log(this.name)
+        //     }
+        // }('张三')   // 定义完直接传入参数使用
+        // person.showName()   //  张三
+
+        // 注意点：
+        // 1.class内部默认为严格模式
+        // 2.不存在变量提升
+        // 3.class继承ES5构造函数属性，包括name属性
+        // 4.class可以用 *[Symbol.iterator]方法用来给for of提供方法
+        // 5.注意this的指向
+
+        // 静态方法static指向类本身，可被继承
+        // class Foo {
+        //     static classMethod(){
+        //         return 'hello'
+        //     }
+        // }
+        // class Bar extends Foo{}
+        // console.log(Bar.classMethod())
+
+        // 实例属性可以放在constructor中或直接在最顶端直接声明
+        // class Mixed{
+        //     name = 'Thever Wang'
+        //     constructor(age=18){
+        //         this.age = age
+        //     }
+        //     showInfo(){
+        //         console.log('this.name', this.name)
+        //         console.log('this.age', this.age)
+        //     }
+        // }
+        // let p = new Mixed('30')
+        // p.showInfo()
+
+        // 私有方法和私有属性，ES6不同于typescript，没有privat声明只有一下方法
+        // 1.在命名上做区别(没有强制力)
+        // 2.将私有方法移除类
+        // 3.使用Symbol值的唯一性，用Symbol值命名方法
+        // 4.提案用#表示私有方法
+
+        // 用new.target属性来判断是否new调用，调用了哪个名称
+        // 可以被继承但是不能直接new调用的class
+        class Shape{
+            constructor(){
+                //  构造器可以监控使用时的状态
+                if(new.target === Shape){
+                    throw new Error('Shape类不能被new实例化调用')
+                }
+            }
+        }
+        class Rectangle extends Shape{
+            constructor(length=0,width=0){
+                //  继承父类属性
+                super()
+                //  获取接受内容
+                this.length = length
+                this.width = width
+            }
+            showInfo(){
+                console.log('this.length', this.length)
+                console.log('this.width', this.width)
+            }
+        }
+        // var x = new Shape() //报错
+        var x = new Rectangle(3,4)
+        x.showInfo()
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbol 创建对象属性</title>
+</head>
+<body>
+    <script>
+        //向对象中添加方法 up down
+        let game = {
+            name:'俄罗斯方块',
+            up: function(){},
+            down: function(){}
+        };
+        
+        //声明一个对象
+        // let methods = {
+        //     up: Symbol(),
+        //     down: Symbol()
+        // };
+
+        // game[methods.up] = function(){
+        //     console.log("我可以改变形状");
+        // }
+
+        // game[methods.down] = function(){
+        //     console.log("我可以快速下降!!");
+        // }
+
+        // console.log(game);
+
+        //
+        let youxi = {
+            name:"狼人杀",
+            [Symbol('say')]: function(){
+                console.log("我可以发言")
+            },
+            [Symbol('zibao')]: function(){
+                console.log('我可以自爆');
+            }
+        }
+
+        console.log(youxi)
+        
+        //  如果要使用symbol属性值，就要先用变量捕获，再调用即可
+        let say1 = Symbol()
+        let say2 = Symbol()
+        let jojo = {
+            name:'jojo',
+            [say1]:function(){
+                console.log('say1调用成功')
+            },
+            [say2]:function(){
+                console.log('say2调用成功')
+            }
+        }
+        jojo[say1]()
+        jojo[say2]()
+    </script>
+</body>
+</html>
